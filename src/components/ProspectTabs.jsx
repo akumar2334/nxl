@@ -9,6 +9,7 @@ import InboxTab from "./InboxTab";
 import { prospects } from "../data/prospects";
 import { inboxReplies } from "../data/inboxReplies";
 import { activateContacts } from "../data/activateContacts";
+import Accounts from "./Accounts";
 
 // simple debounce hook
 const useDebounce = (value, delay = 300) => {
@@ -146,14 +147,10 @@ export default function ProspectTabs() {
 									</div>
 								</div>
 							) : (
-								<p className="text-center text-sm text-gray-400 py-10">
-									No prospects found for "{search}"
-								</p>
+								<EmptyStateForProspect search={search} setSearch={setSearch} />
 							)
 						) : (
-							<div className="text-sm text-gray-500 py-8 text-center">
-								Accounts view coming soon 🚀
-							</div>
+							<Accounts />
 						)}
 					</div>
 				)}
@@ -167,3 +164,29 @@ export default function ProspectTabs() {
 		</div>
 	);
 }
+
+const EmptyStateForProspect = ({ search, setSearch }) => {
+	return (
+		<div className="flex flex-col items-center justify-center py-12 text-center">
+			<div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-3">
+				<span className="text-gray-500 text-lg">🔍</span>
+			</div>
+
+			<h3 className="text-sm font-semibold text-gray-900">
+				No prospects found
+			</h3>
+
+			<p className="text-xs text-gray-500 mt-1 max-w-xs">
+				We couldn’t find any results for{" "}
+				<span className="font-medium text-gray-700">"{search}"</span>.
+			</p>
+
+			<button
+				onClick={() => setSearch("")}
+				className="mt-4 text-xs font-medium text-indigo-600 hover:text-indigo-700"
+			>
+				Clear search
+			</button>
+		</div>
+	);
+};
